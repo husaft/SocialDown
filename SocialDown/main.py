@@ -3,7 +3,7 @@ from core_inputs import load_json, load_lines, save_json, create_dir
 
 
 def run_tool():
-    links = load_json('urls.json')
+    links = load_json('links.json')
     posts = load_json('posts.json')
     urls = load_lines('urls.txt')
     print(f"Unique input URLs = {len(urls)}")
@@ -20,7 +20,7 @@ def run_tool():
         after_nr_l = len(links)
         after_nr_p = len(posts)
         if before_nr_l != after_nr_l:
-            save_json(links, 'urls.json')
+            save_json(links, 'links.json')
         if before_nr_p != after_nr_p:
             save_json(posts, 'posts.json')
     print("Done.")
