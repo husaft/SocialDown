@@ -132,3 +132,5 @@ dmypy.json
 .idea/
 images/
 texts/
+SocialDown/*.json
+SocialDown/*.txt
