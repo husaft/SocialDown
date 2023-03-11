@@ -69,7 +69,7 @@ def extract_sxnarod_page(url):
     return {'l': lang, 't': title, 'e': entries}
 
 
-def download_sxnarod(posts, page_item, img_dir, txt_dir, users, all_links):
+def download_sxnarod(posts, page_item, img_dir, txt_dir, users, all_links, hashes):
     pages = page_item['p']
     for page_idx in pages:
         page_url = pages[page_idx]
@@ -158,12 +158,12 @@ def download_sxnarod(posts, page_item, img_dir, txt_dir, users, all_links):
                         all_links[one_link] = extract_backbook(one_link)
                     bb_item = all_links[one_link]
                     img_dl_dir = create_sub_dir(name_img_dir, page_id)
-                    download_backbook(bb_item, img_dl_dir, overwrite_time=time)
+                    download_backbook(bb_item, img_dl_dir, hashes, overwrite_time=time)
                     continue
                 if ".imagevenue.com/" in one_link:
                     if one_link not in all_links:
                         all_links[one_link] = extract_imagevenue(one_link)
                     iv_item = all_links[one_link]
                     img_dl_dir = create_sub_dir(name_img_dir, page_id)
-                    download_imagevenue(iv_item, img_dl_dir, overwrite_time=time)
+                    download_imagevenue(iv_item, img_dl_dir, hashes, overwrite_time=time)
                     continue

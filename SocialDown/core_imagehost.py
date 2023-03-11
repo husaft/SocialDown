@@ -2,10 +2,11 @@ from bs4 import BeautifulSoup
 import shutil
 import requests
 from core_inputs import clean_string
+from core_image import get_image_data
 from os.path import join, isfile
 
 
-def download_backbook(item, img_dir, overwrite_time):
+def download_backbook(item, img_dir, hashes, overwrite_time):
     title = item['t']
     images = item['i']
     index = 0
@@ -23,16 +24,20 @@ def download_backbook(item, img_dir, overwrite_time):
         imgname = imgurl.split('/')[-1].replace("full_", "")
         tgtname = f"{time}_{group}_{index:02d}_{imgname}"
         full_tgtname = join(img_dir, tgtname)
+        if full_tgtname in hashes:
+            continue
         if isfile(full_tgtname):
+            hashes[full_tgtname] = get_image_data(full_tgtname)
             continue
         print(f"   - {title}")
         req = requests.get(imgurl, stream=True, allow_redirects=False)
         with open(full_tgtname, 'wb') as out_file:
             shutil.copyfileobj(req.raw, out_file)
         print(f"     --> {full_tgtname}")
+        hashes[full_tgtname] = get_image_data(full_tgtname)
 
 
-def download_imagevenue(item, img_dir, overwrite_time):
+def download_imagevenue(item, img_dir, hashes, overwrite_time):
     title = item['t']
     images = item['i']
     index = 0
@@ -47,13 +52,17 @@ def download_imagevenue(item, img_dir, overwrite_time):
         imgname = imgurl.split('/')[-1]
         tgtname = f"{time}_{group}_{index:02d}_{imgname}"
         full_tgtname = join(img_dir, tgtname)
+        if full_tgtname in hashes:
+            continue
         if isfile(full_tgtname):
+            hashes[full_tgtname] = get_image_data(full_tgtname)
             continue
         print(f"   - {title}")
         req = requests.get(imgurl, stream=True, allow_redirects=False)
         with open(full_tgtname, 'wb') as out_file:
             shutil.copyfileobj(req.raw, out_file)
         print(f"     --> {full_tgtname}")
+        hashes[full_tgtname] = get_image_data(full_tgtname)
 
 
 def extract_backbook(url):
