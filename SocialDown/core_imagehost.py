@@ -29,6 +29,10 @@ def download_backbook(item, img_dir, hashes, overwrite_time):
         if isfile(full_tgtname):
             hashes[full_tgtname] = get_image_data(full_tgtname)
             continue
+        full_tgtname_alt = full_tgtname.replace('.jpg', '.webp')
+        if isfile(full_tgtname_alt):
+            hashes[full_tgtname] = get_image_data(full_tgtname_alt)
+            continue
         print(f"   - {title}")
         req = requests.get(imgurl, stream=True, allow_redirects=False)
         with open(full_tgtname, 'wb') as out_file:
